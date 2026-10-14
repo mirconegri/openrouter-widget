@@ -1,26 +1,3 @@
-cd C:\Users\mirco\progetti\widget_openrouter
-
-# ---------- .gitignore ----------
-$gi = @(
-  '*.iml'
-  '.gradle/'
-  '/local.properties'
-  '/.idea/'
-  '.DS_Store'
-  '/build'
-  '/app/build'
-  '/captures'
-  '.externalNativeBuild'
-  '.cxx'
-) -join "`n"
-
-[System.IO.File]::WriteAllText(
-  (Join-Path (Get-Location) ".gitignore"),
-  $gi,
-  (New-Object System.Text.UTF8Encoding $false)
-)
-
-# ---------- build-apk.yml ----------
 $yaml = @(
   'name: Build APK'
   ''
