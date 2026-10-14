@@ -30,9 +30,17 @@ object WidgetUpdater {
         val threshold = prefs.threshold
         val lastUpd = prefs.lastUpdate
         val error = prefs.lastError
+        val mode = prefs.displayMode
 
         val hasBalance = balance >= 0f
-        val isLow = hasBalance && balance < threshold
+
+        // La soglia cambia significato in base alla modalita:
+        // - ACCOUNT: allarme se il credito residuo SCENDE sotto soglia
+        // - KEY: allarme se la spesa della chiave SALE sopra soglia
+        val isAlert = when (mode) {
+            Prefs.MODE_KEY -> hasBalance && balance > threshold
+            else -> hasBalance && balance < threshold
+        }
 
         views.setTextViewText(
             R.id.widget_balance,
@@ -40,7 +48,7 @@ object WidgetUpdater {
         )
         views.setTextColor(
             R.id.widget_balance,
-            if (isLow) 0xFFD71921.toInt() else 0xFFFFFFFF.toInt()
+            if (isAlert) 0xFFD71921.toInt() else 0xFFFFFFFF.toInt()
         )
         views.setTextViewText(R.id.widget_label, label)
 
@@ -54,7 +62,7 @@ object WidgetUpdater {
 
         views.setImageViewResource(
             R.id.widget_dot,
-            if (error != null || isLow) R.drawable.dot_red else R.drawable.dot_green
+            if (error != null || isAlert) R.drawable.dot_red else R.drawable.dot_green
         )
 
         val openPi = PendingIntent.getActivity(
