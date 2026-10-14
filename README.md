@@ -15,10 +15,18 @@ The app does one thing well: it fetches, caches, and renders your OpenRouter bal
 
 ## 📸 Preview
 
-| Widget (Home Screen) | Configuration Activity |
-|:--:|:--:|
-| ![Widget Preview](assets/widget-preview.png) | ![Config Preview](assets/config-preview.png) |
-| *Live balance with color-coded alert dot* | *Single-screen setup in Nothing OS style* |
+| **Account Balance** | **Single API Key** | **Post-Setup** |
+|:--:|:--:|:--:|
+| ![Account Balance](assets/home-widget-account.png) | ![Single Key](assets/home-widget-key.png) | ![Post-Setup](assets/post-setup.png) |
+| *Remaining credit — green dot while above threshold* | *Cumulative usage of one key — red dot when over budget* | *Ready to go — display mode, threshold and live balance* |
+
+<p align="center">
+  <img src="assets/config-preview.png" alt="Configuration Activity" width="360">
+</p>
+
+<p align="center">
+  <em>Single-screen configuration in Nothing OS style — paste your API key, pick a display mode, set the alert threshold.</em>
+</p>
 
 > Screenshots taken on a Nothing Phone 2a running Nothing OS 3.0 (Android 14).
 
