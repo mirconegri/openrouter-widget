@@ -26,10 +26,12 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon --stacktrace
 
-      - name: Rename APK
-        run: |
-          mkdir -p release
-          cp app/build/outputs/apk/debug/app-debug.apk release/openrouter-widget-${{ github.ref_name }}.apk
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "OpenRouter Widget ${{ github.ref_name }} — Nothing OS Edition"
+          body_path: .github/RELEASE_BODY.md
+          files: release/openrouter-widget-${{ github.ref_name }}.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
