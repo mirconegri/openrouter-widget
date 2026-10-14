@@ -24,29 +24,9 @@ class Prefs(context: Context) {
         get() = prefs.getString(KEY_USER_API_KEY, "").orEmpty()
         set(v) = prefs.edit().putString(KEY_USER_API_KEY, v).apply()
 
-    var managementKey: String
-        get() = prefs.getString(KEY_MGMT_KEY, "").orEmpty()
-        set(v) = prefs.edit().putString(KEY_MGMT_KEY, v).apply()
-
     var displayMode: String
         get() = prefs.getString(KEY_MODE, MODE_ACCOUNT) ?: MODE_ACCOUNT
         set(v) = prefs.edit().putString(KEY_MODE, v).apply()
-
-    var selectedWorkspaceId: String?
-        get() = prefs.getString(KEY_WS_ID, null)
-        set(v) = prefs.edit().putString(KEY_WS_ID, v).apply()
-
-    var selectedWorkspaceName: String?
-        get() = prefs.getString(KEY_WS_NAME, null)
-        set(v) = prefs.edit().putString(KEY_WS_NAME, v).apply()
-
-    var selectedKeyHash: String?
-        get() = prefs.getString(KEY_KEY_HASH, null)
-        set(v) = prefs.edit().putString(KEY_KEY_HASH, v).apply()
-
-    var selectedKeyName: String?
-        get() = prefs.getString(KEY_KEY_NAME, null)
-        set(v) = prefs.edit().putString(KEY_KEY_NAME, v).apply()
 
     var threshold: Float
         get() = prefs.getFloat(KEY_THRESHOLD, 2.0f)
@@ -80,16 +60,10 @@ class Prefs(context: Context) {
 
     companion object {
         const val MODE_ACCOUNT = "ACCOUNT"
-        const val MODE_WORKSPACE = "WORKSPACE"
         const val MODE_KEY = "KEY"
 
         private const val KEY_USER_API_KEY = "user_api_key"
-        private const val KEY_MGMT_KEY = "mgmt_key"
         private const val KEY_MODE = "mode"
-        private const val KEY_WS_ID = "ws_id"
-        private const val KEY_WS_NAME = "ws_name"
-        private const val KEY_KEY_HASH = "key_hash"
-        private const val KEY_KEY_NAME = "key_name"
         private const val KEY_THRESHOLD = "threshold"
         private const val KEY_BALANCE = "balance"
         private const val KEY_USAGE = "usage"

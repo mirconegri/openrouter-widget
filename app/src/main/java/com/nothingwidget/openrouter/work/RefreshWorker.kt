@@ -26,8 +26,7 @@ class RefreshWorker(
         val prefs = Prefs(applicationContext)
         try {
             when (prefs.displayMode) {
-                Prefs.MODE_WORKSPACE -> refreshWorkspace(prefs)
-                Prefs.MODE_KEY -> refreshSingleKey(prefs)
+                Prefs.MODE_KEY -> refreshKey(prefs)
                 else -> refreshAccount(prefs)
             }
             Result.success()
@@ -40,7 +39,7 @@ class RefreshWorker(
 
     private suspend fun refreshAccount(prefs: Prefs) {
         if (prefs.userApiKey.isBlank()) {
-            prefs.lastError = "Non loggato"
+            prefs.lastError = "Non configurato"
             WidgetUpdater.updateAll(applicationContext)
             return
         }
@@ -53,36 +52,17 @@ class RefreshWorker(
         WidgetUpdater.updateAll(applicationContext)
     }
 
-    private suspend fun refreshWorkspace(prefs: Prefs) {
-        val wsId = prefs.selectedWorkspaceId
-        if (prefs.managementKey.isBlank() || wsId.isNullOrBlank()) {
-            prefs.lastError = "Workspace non configurato"
+    private suspend fun refreshKey(prefs: Prefs) {
+        if (prefs.userApiKey.isBlank()) {
+            prefs.lastError = "Non configurato"
             WidgetUpdater.updateAll(applicationContext)
             return
         }
-        val keys = OpenRouterApi.fetchWorkspaceKeys(prefs.managementKey, wsId)
-        val totalUsage = keys.sumOf { it.usage.toDouble() }.toFloat()
-        prefs.cachedBalance = totalUsage
-        prefs.cachedUsage = totalUsage
-        prefs.cachedLabel = "WS " + (prefs.selectedWorkspaceName ?: wsId).uppercase()
-        prefs.lastUpdate = System.currentTimeMillis()
-        prefs.lastError = null
-        WidgetUpdater.updateAll(applicationContext)
-    }
-
-    private suspend fun refreshSingleKey(prefs: Prefs) {
-        val wsId = prefs.selectedWorkspaceId
-        val hash = prefs.selectedKeyHash
-        if (prefs.managementKey.isBlank() || wsId.isNullOrBlank() || hash.isNullOrBlank()) {
-            prefs.lastError = "Chiave non configurata"
-            WidgetUpdater.updateAll(applicationContext)
-            return
-        }
-        val keys = OpenRouterApi.fetchWorkspaceKeys(prefs.managementKey, wsId)
-        val k = keys.firstOrNull { it.hash == hash } ?: throw RuntimeException("Chiave non trovata")
+        val k = OpenRouterApi.fetchKeyInfo(prefs.userApiKey)
+        // In modalita KEY mostriamo l'usage cumulato della chiave
         prefs.cachedBalance = k.usage
         prefs.cachedUsage = k.usage
-        prefs.cachedLabel = "KEY " + (prefs.selectedKeyName ?: hash.take(8)).uppercase()
+        prefs.cachedLabel = k.label.uppercase()
         prefs.lastUpdate = System.currentTimeMillis()
         prefs.lastError = null
         WidgetUpdater.updateAll(applicationContext)

@@ -47,43 +47,16 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Accedi con il tuo account OpenRouter oppure incolla una API Key manuale."
+                android:text="Incolla la tua API Key di OpenRouter per iniziare."
                 android:textColor="@color/nothing_gray"
                 android:textSize="12sp"
                 android:fontFamily="monospace"/>
 
-            <Button
-                android:id="@+id/buttonLogin"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/nothing_white"
-                android:text="ACCEDI CON OPENROUTER"
-                android:textColor="@color/nothing_black"
-                android:letterSpacing="0.1"
-                android:fontFamily="monospace"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Se il login non reindirizza, usa la chiave manuale:"
-                android:textColor="@color/nothing_gray"
-                android:textSize="10sp"
-                android:fontFamily="monospace"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/nothing_border"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="USER API KEY (MANUALE)"
+                android:text="API KEY"
                 android:textColor="@color/nothing_white"
                 android:textSize="12sp"
                 android:letterSpacing="0.15"
@@ -115,12 +88,13 @@
                 android:id="@+id/buttonSaveUserKey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/nothing_border"
-                android:text="VERIFICA E SALVA KEY"
-                android:textColor="@color/nothing_white"
-                android:textSize="12sp"
-                android:fontFamily="monospace"/>
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/nothing_white"
+                android:text="VERIFICA E SALVA"
+                android:textColor="@color/nothing_black"
+                android:letterSpacing="0.1"
+                android:fontFamily="monospace"
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -168,56 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="1 · MANAGEMENT KEY (OPZIONALE)"
-                android:textColor="@color/nothing_white"
-                android:textSize="12sp"
-                android:letterSpacing="0.15"
-                android:fontFamily="monospace"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Necessaria solo per workspace/chiavi. Creala su openrouter.ai/settings/keys"
-                android:textColor="@color/nothing_gray"
-                android:textSize="10sp"
-                android:fontFamily="monospace"/>
-
-            <EditText
-                android:id="@+id/inputMgmtKey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/nothing_border"
-                android:hint="sk-or-v1-..."
-                android:textColor="@color/nothing_white"
-                android:textColorHint="@color/nothing_gray"
-                android:fontFamily="monospace"
-                android:inputType="textPassword"
-                android:importantForAutofill="no"/>
-
-            <Button
-                android:id="@+id/buttonSaveMgmtKey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/nothing_border"
-                android:text="VERIFICA E SALVA"
-                android:textColor="@color/nothing_white"
-                android:textSize="12sp"
-                android:fontFamily="monospace"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/nothing_border"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="2 · MODALITÀ DISPLAY"
+                android:text="1 · MODALITÀ DISPLAY"
                 android:textColor="@color/nothing_white"
                 android:textSize="12sp"
                 android:letterSpacing="0.15"
@@ -233,16 +158,7 @@
                     android:id="@+id/radioAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Saldo Account"
-                    android:textColor="@color/nothing_white"
-                    android:fontFamily="monospace"
-                    android:buttonTint="@color/nothing_red"/>
-
-                <RadioButton
-                    android:id="@+id/radioWorkspace"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Uso totale Workspace"
+                    android:text="Saldo Account (credito residuo)"
                     android:textColor="@color/nothing_white"
                     android:fontFamily="monospace"
                     android:buttonTint="@color/nothing_red"/>
@@ -251,73 +167,11 @@
                     android:id="@+id/radioKey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Uso chiave singola"
+                    android:text="Uso chiave API (questa key)"
                     android:textColor="@color/nothing_white"
                     android:fontFamily="monospace"
                     android:buttonTint="@color/nothing_red"/>
             </RadioGroup>
-
-            <LinearLayout
-                android:id="@+id/groupWorkspaceSel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="WORKSPACE"
-                    android:textColor="@color/nothing_gray"
-                    android:textSize="11sp"
-                    android:letterSpacing="0.15"
-                    android:fontFamily="monospace"/>
-
-                <AutoCompleteTextView
-                    android:id="@+id/spinnerWorkspace"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="@color/nothing_border"
-                    android:hint="Seleziona workspace"
-                    android:textColor="@color/nothing_white"
-                    android:textColorHint="@color/nothing_gray"
-                    android:fontFamily="monospace"
-                    android:inputType="none"
-                    android:importantForAutofill="no"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/groupKeySel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CHIAVE API"
-                    android:textColor="@color/nothing_gray"
-                    android:textSize="11sp"
-                    android:letterSpacing="0.15"
-                    android:fontFamily="monospace"/>
-
-                <AutoCompleteTextView
-                    android:id="@+id/spinnerKey"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="@color/nothing_border"
-                    android:hint="Seleziona chiave"
-                    android:textColor="@color/nothing_white"
-                    android:textColorHint="@color/nothing_gray"
-                    android:fontFamily="monospace"
-                    android:inputType="none"
-                    android:importantForAutofill="no"/>
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -329,10 +183,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="3 · SOGLIA AVVISO ($)"
+                android:text="2 · SOGLIA AVVISO ($)"
                 android:textColor="@color/nothing_white"
                 android:textSize="12sp"
                 android:letterSpacing="0.15"
+                android:fontFamily="monospace"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Sotto questo valore il saldo diventa rosso"
+                android:textColor="@color/nothing_gray"
+                android:textSize="10sp"
                 android:fontFamily="monospace"/>
 
             <EditText
