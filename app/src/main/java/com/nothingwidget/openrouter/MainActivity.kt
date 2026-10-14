@@ -18,6 +18,7 @@ import com.nothingwidget.openrouter.databinding.ActivityMainBinding
 import com.nothingwidget.openrouter.widget.WidgetUpdater
 import com.nothingwidget.openrouter.work.RefreshWorker
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         prefs = Prefs(this)
 
         b.buttonLogin.setOnClickListener { startOAuth() }
+        b.buttonSaveUserKey.setOnClickListener { validateAndSaveUserKey() }
         b.buttonLogout.setOnClickListener { doLogout() }
         b.buttonSaveMgmtKey.setOnClickListener { validateAndSaveManagementKey() }
         b.buttonSaveConfig.setOnClickListener { saveConfigAndRefresh() }
@@ -90,7 +92,33 @@ class MainActivity : AppCompatActivity() {
         val challenge = OAuthHelper.codeChallenge(verifier)
         prefs.oauthCodeVerifier = verifier
         val url = OAuthHelper.buildAuthUrl(challenge)
-        CustomTabsIntent.Builder().build().launchUrl(this, Uri.parse(url))
+        try {
+            CustomTabsIntent.Builder().build().launchUrl(this, Uri.parse(url))
+        } catch (t: Throwable) {
+            toast("Browser non disponibile")
+        }
+    }
+
+    private fun validateAndSaveUserKey() {
+        val key = b.inputUserKey.text?.toString()?.trim().orEmpty()
+        if (key.isBlank()) { toast("Inserisci la User API Key"); return }
+        b.status.text = "VERIFICA USER KEY..."
+        lifecycleScope.launch {
+            try {
+                val r = OpenRouterApi.fetchCredits(key)
+                prefs.userApiKey = key
+                prefs.cachedBalance = r.balance
+                prefs.cachedUsage = r.usage
+                prefs.cachedLabel = "ACCOUNT"
+                prefs.lastUpdate = System.currentTimeMillis()
+                prefs.lastError = null
+                b.status.text = "OK · SALDO $" + String.format(Locale.US, "%.2f", r.balance)
+                WidgetUpdater.updateAll(this@MainActivity)
+                render()
+            } catch (t: Throwable) {
+                b.status.text = "ERRORE: ${t.message}"
+            }
+        }
     }
 
     private fun handleOAuthCallback(intent: Intent?) {
@@ -123,6 +151,7 @@ class MainActivity : AppCompatActivity() {
         prefs.logout()
         workspaces = emptyList(); keys = emptyList()
         b.inputMgmtKey.setText("")
+        b.inputUserKey.setText("")
         b.spinnerWorkspace.setAdapter(null)
         b.spinnerKey.setAdapter(null)
         render()
@@ -159,6 +188,7 @@ class MainActivity : AppCompatActivity() {
         val names = workspaces.map { it.name.ifBlank { it.id } }
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, names)
         b.spinnerWorkspace.setAdapter(adapter)
+        b.spinnerWorkspace.threshold = 0
         val idx = workspaces.indexOfFirst { it.id == prefs.selectedWorkspaceId }
         if (idx >= 0) b.spinnerWorkspace.setText(names[idx], false)
         if (prefs.selectedWorkspaceId != null) loadKeysForSelectedWorkspace()
@@ -172,6 +202,7 @@ class MainActivity : AppCompatActivity() {
                 val names = keys.map { it.name }
                 val adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_dropdown_item_1line, names)
                 b.spinnerKey.setAdapter(adapter)
+                b.spinnerKey.threshold = 0
                 val idx = keys.indexOfFirst { it.hash == prefs.selectedKeyHash }
                 if (idx >= 0) b.spinnerKey.setText(names[idx], false)
             } catch (t: Throwable) {

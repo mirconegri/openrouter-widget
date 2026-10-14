@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Accedi con il tuo account OpenRouter per iniziare."
+                android:text="Accedi con il tuo account OpenRouter oppure incolla una API Key manuale."
                 android:textColor="@color/nothing_gray"
                 android:textSize="12sp"
                 android:fontFamily="monospace"/>
@@ -63,6 +63,64 @@
                 android:letterSpacing="0.1"
                 android:fontFamily="monospace"
                 android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Se il login non reindirizza, usa la chiave manuale:"
+                android:textColor="@color/nothing_gray"
+                android:textSize="10sp"
+                android:fontFamily="monospace"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/nothing_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USER API KEY (MANUALE)"
+                android:textColor="@color/nothing_white"
+                android:textSize="12sp"
+                android:letterSpacing="0.15"
+                android:fontFamily="monospace"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Creala su openrouter.ai/settings/keys"
+                android:textColor="@color/nothing_gray"
+                android:textSize="10sp"
+                android:fontFamily="monospace"/>
+
+            <EditText
+                android:id="@+id/inputUserKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/nothing_border"
+                android:hint="sk-or-v1-..."
+                android:textColor="@color/nothing_white"
+                android:textColorHint="@color/nothing_gray"
+                android:fontFamily="monospace"
+                android:inputType="textPassword"
+                android:importantForAutofill="no"/>
+
+            <Button
+                android:id="@+id/buttonSaveUserKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/nothing_border"
+                android:text="VERIFICA E SALVA KEY"
+                android:textColor="@color/nothing_white"
+                android:textSize="12sp"
+                android:fontFamily="monospace"/>
         </LinearLayout>
 
         <LinearLayout
@@ -110,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="1 · MANAGEMENT KEY"
+                android:text="1 · MANAGEMENT KEY (OPZIONALE)"
                 android:textColor="@color/nothing_white"
                 android:textSize="12sp"
                 android:letterSpacing="0.15"
@@ -120,7 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Necessaria per workspace. Creala su openrouter.ai/settings/keys"
+                android:text="Necessaria solo per workspace/chiavi. Creala su openrouter.ai/settings/keys"
                 android:textColor="@color/nothing_gray"
                 android:textSize="10sp"
                 android:fontFamily="monospace"/>
