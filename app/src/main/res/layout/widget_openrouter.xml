@@ -22,8 +22,7 @@
                 android:id="@+id/widget_dot"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                android:src="@drawable/dot_green"
-                android:contentDescription="@null"/>
+                android:src="@drawable/dot_green"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -34,7 +33,7 @@
                 android:textColor="@color/nothing_gray"
                 android:textSize="10sp"
                 android:letterSpacing="0.18"
-                android:fontFamily="@font/vt323"
+                android:fontFamily="monospace"
                 android:maxLines="1"/>
 
             <ImageView
@@ -42,8 +41,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:padding="2dp"
-                android:src="@drawable/ic_refresh"
-                android:contentDescription="@string/refresh"/>
+                android:src="@drawable/ic_refresh"/>
         </LinearLayout>
 
         <TextView
@@ -54,19 +52,19 @@
             android:text="$0.00"
             android:textColor="@color/nothing_white"
             android:textSize="28sp"
-            android:fontFamily="@font/vt323"
+            android:fontFamily="monospace"
             android:includeFontPadding="false"
             android:maxLines="1"/>
 
         <TextView
-            android:id="@+id/widget_usage"
+            android:id="@+id/widget_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="USO —"
+            android:text="ACCOUNT"
             android:textColor="@color/nothing_gray"
-            android:textSize="10sp"
-            android:letterSpacing="0.1"
-            android:fontFamily="@font/vt323"
+            android:textSize="9sp"
+            android:letterSpacing="0.15"
+            android:fontFamily="monospace"
             android:maxLines="1"/>
 
         <TextView
@@ -74,11 +72,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="MAI SINCRONIZZATO"
+            android:text="NON CONFIGURATO"
             android:textColor="@color/nothing_gray"
             android:textSize="9sp"
             android:letterSpacing="0.12"
-            android:fontFamily="@font/vt323"
+            android:fontFamily="monospace"
             android:maxLines="1"/>
     </LinearLayout>
 </FrameLayout>

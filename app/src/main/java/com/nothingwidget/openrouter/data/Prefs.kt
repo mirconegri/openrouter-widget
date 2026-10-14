@@ -20,15 +20,38 @@ class Prefs(context: Context) {
         )
     }
 
-    var apiKey: String
-        get() = prefs.getString(KEY_API_KEY, "").orEmpty()
-        set(v) = prefs.edit().putString(KEY_API_KEY, v).apply()
+    var userApiKey: String
+        get() = prefs.getString(KEY_USER_API_KEY, "").orEmpty()
+        set(v) = prefs.edit().putString(KEY_USER_API_KEY, v).apply()
+
+    var managementKey: String
+        get() = prefs.getString(KEY_MGMT_KEY, "").orEmpty()
+        set(v) = prefs.edit().putString(KEY_MGMT_KEY, v).apply()
+
+    var displayMode: String
+        get() = prefs.getString(KEY_MODE, MODE_ACCOUNT) ?: MODE_ACCOUNT
+        set(v) = prefs.edit().putString(KEY_MODE, v).apply()
+
+    var selectedWorkspaceId: String?
+        get() = prefs.getString(KEY_WS_ID, null)
+        set(v) = prefs.edit().putString(KEY_WS_ID, v).apply()
+
+    var selectedWorkspaceName: String?
+        get() = prefs.getString(KEY_WS_NAME, null)
+        set(v) = prefs.edit().putString(KEY_WS_NAME, v).apply()
+
+    var selectedKeyHash: String?
+        get() = prefs.getString(KEY_KEY_HASH, null)
+        set(v) = prefs.edit().putString(KEY_KEY_HASH, v).apply()
+
+    var selectedKeyName: String?
+        get() = prefs.getString(KEY_KEY_NAME, null)
+        set(v) = prefs.edit().putString(KEY_KEY_NAME, v).apply()
 
     var threshold: Float
         get() = prefs.getFloat(KEY_THRESHOLD, 2.0f)
         set(v) = prefs.edit().putFloat(KEY_THRESHOLD, v).apply()
 
-    /** -1f = nessun dato in cache */
     var cachedBalance: Float
         get() = prefs.getFloat(KEY_BALANCE, -1f)
         set(v) = prefs.edit().putFloat(KEY_BALANCE, v).apply()
@@ -36,6 +59,10 @@ class Prefs(context: Context) {
     var cachedUsage: Float
         get() = prefs.getFloat(KEY_USAGE, -1f)
         set(v) = prefs.edit().putFloat(KEY_USAGE, v).apply()
+
+    var cachedLabel: String?
+        get() = prefs.getString(KEY_LABEL, null)
+        set(v) = prefs.edit().putString(KEY_LABEL, v).apply()
 
     var lastUpdate: Long
         get() = prefs.getLong(KEY_LAST_UPDATE, 0L)
@@ -45,12 +72,30 @@ class Prefs(context: Context) {
         get() = prefs.getString(KEY_LAST_ERROR, null)
         set(v) = prefs.edit().putString(KEY_LAST_ERROR, v).apply()
 
+    var oauthCodeVerifier: String?
+        get() = prefs.getString(KEY_CODE_VERIFIER, null)
+        set(v) = prefs.edit().putString(KEY_CODE_VERIFIER, v).apply()
+
+    fun logout() { prefs.edit().clear().apply() }
+
     companion object {
-        private const val KEY_API_KEY    = "api_key"
-        private const val KEY_THRESHOLD  = "threshold"
-        private const val KEY_BALANCE    = "balance"
-        private const val KEY_USAGE      = "usage"
+        const val MODE_ACCOUNT = "ACCOUNT"
+        const val MODE_WORKSPACE = "WORKSPACE"
+        const val MODE_KEY = "KEY"
+
+        private const val KEY_USER_API_KEY = "user_api_key"
+        private const val KEY_MGMT_KEY = "mgmt_key"
+        private const val KEY_MODE = "mode"
+        private const val KEY_WS_ID = "ws_id"
+        private const val KEY_WS_NAME = "ws_name"
+        private const val KEY_KEY_HASH = "key_hash"
+        private const val KEY_KEY_NAME = "key_name"
+        private const val KEY_THRESHOLD = "threshold"
+        private const val KEY_BALANCE = "balance"
+        private const val KEY_USAGE = "usage"
+        private const val KEY_LABEL = "label"
         private const val KEY_LAST_UPDATE = "last_update"
-        private const val KEY_LAST_ERROR  = "last_error"
+        private const val KEY_LAST_ERROR = "last_error"
+        private const val KEY_CODE_VERIFIER = "code_verifier"
     }
 }

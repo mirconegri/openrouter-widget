@@ -24,28 +24,68 @@ class RefreshWorker(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val prefs = Prefs(applicationContext)
-        val apiKey = prefs.apiKey
-
-        if (apiKey.isBlank()) {
-            prefs.lastError = "API key mancante"
-            WidgetUpdater.updateAll(applicationContext)
-            return@withContext Result.success()
-        }
-
         try {
-            val r = OpenRouterApi.fetchCredits(apiKey)
-            prefs.cachedBalance = r.balance
-            prefs.cachedUsage = r.usage
-            prefs.lastUpdate = System.currentTimeMillis()
-            prefs.lastError = null
-            WidgetUpdater.updateAll(applicationContext)
+            when (prefs.displayMode) {
+                Prefs.MODE_WORKSPACE -> refreshWorkspace(prefs)
+                Prefs.MODE_KEY -> refreshSingleKey(prefs)
+                else -> refreshAccount(prefs)
+            }
             Result.success()
         } catch (t: Throwable) {
             prefs.lastError = t.message ?: "Errore di rete"
-            // mantiene l'ultimo saldo valido in cache — niente crash
             WidgetUpdater.updateAll(applicationContext)
             if (runAttemptCount < 3) Result.retry() else Result.success()
         }
+    }
+
+    private suspend fun refreshAccount(prefs: Prefs) {
+        if (prefs.userApiKey.isBlank()) {
+            prefs.lastError = "Non loggato"
+            WidgetUpdater.updateAll(applicationContext)
+            return
+        }
+        val r = OpenRouterApi.fetchCredits(prefs.userApiKey)
+        prefs.cachedBalance = r.balance
+        prefs.cachedUsage = r.usage
+        prefs.cachedLabel = "ACCOUNT"
+        prefs.lastUpdate = System.currentTimeMillis()
+        prefs.lastError = null
+        WidgetUpdater.updateAll(applicationContext)
+    }
+
+    private suspend fun refreshWorkspace(prefs: Prefs) {
+        val wsId = prefs.selectedWorkspaceId
+        if (prefs.managementKey.isBlank() || wsId.isNullOrBlank()) {
+            prefs.lastError = "Workspace non configurato"
+            WidgetUpdater.updateAll(applicationContext)
+            return
+        }
+        val keys = OpenRouterApi.fetchWorkspaceKeys(prefs.managementKey, wsId)
+        val totalUsage = keys.sumOf { it.usage.toDouble() }.toFloat()
+        prefs.cachedBalance = totalUsage
+        prefs.cachedUsage = totalUsage
+        prefs.cachedLabel = "WS " + (prefs.selectedWorkspaceName ?: wsId).uppercase()
+        prefs.lastUpdate = System.currentTimeMillis()
+        prefs.lastError = null
+        WidgetUpdater.updateAll(applicationContext)
+    }
+
+    private suspend fun refreshSingleKey(prefs: Prefs) {
+        val wsId = prefs.selectedWorkspaceId
+        val hash = prefs.selectedKeyHash
+        if (prefs.managementKey.isBlank() || wsId.isNullOrBlank() || hash.isNullOrBlank()) {
+            prefs.lastError = "Chiave non configurata"
+            WidgetUpdater.updateAll(applicationContext)
+            return
+        }
+        val keys = OpenRouterApi.fetchWorkspaceKeys(prefs.managementKey, wsId)
+        val k = keys.firstOrNull { it.hash == hash } ?: throw RuntimeException("Chiave non trovata")
+        prefs.cachedBalance = k.usage
+        prefs.cachedUsage = k.usage
+        prefs.cachedLabel = "KEY " + (prefs.selectedKeyName ?: hash.take(8)).uppercase()
+        prefs.lastUpdate = System.currentTimeMillis()
+        prefs.lastError = null
+        WidgetUpdater.updateAll(applicationContext)
     }
 
     companion object {
@@ -55,12 +95,10 @@ class RefreshWorker(
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
-
             val request = PeriodicWorkRequestBuilder<RefreshWorker>(45, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 15, TimeUnit.MINUTES)
                 .build()
-
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
                 UNIQUE_PERIODIC,
                 ExistingPeriodicWorkPolicy.UPDATE,

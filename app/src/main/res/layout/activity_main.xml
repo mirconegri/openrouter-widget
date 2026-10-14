@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="28dp">
+        android:padding="24dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="CONFIGURAZIONE WIDGET"
+            android:text="CONTROL PANEL"
             android:textColor="@color/nothing_gray"
             android:textSize="11sp"
             android:letterSpacing="0.2"
@@ -34,76 +34,283 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@color/nothing_border"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="API KEY"
-            android:textColor="@color/nothing_gray"
-            android:textSize="11sp"
-            android:letterSpacing="0.2"
-            android:fontFamily="monospace"/>
-
-        <EditText
-            android:id="@+id/inputApiKey"
+        <LinearLayout
+            android:id="@+id/groupLoggedOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/nothing_border"
-            android:hint="sk-or-..."
-            android:textColor="@color/nothing_white"
-            android:textColorHint="@color/nothing_gray"
-            android:fontFamily="monospace"
-            android:inputType="textPassword"
-            android:autofillHints=""
-            android:importantForAutofill="no"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="SOGLIA AVVISO ($)"
-            android:textColor="@color/nothing_gray"
-            android:textSize="11sp"
-            android:letterSpacing="0.2"
-            android:fontFamily="monospace"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accedi con il tuo account OpenRouter per iniziare."
+                android:textColor="@color/nothing_gray"
+                android:textSize="12sp"
+                android:fontFamily="monospace"/>
 
-        <EditText
-            android:id="@+id/inputThreshold"
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/nothing_white"
+                android:text="ACCEDI CON OPENROUTER"
+                android:textColor="@color/nothing_black"
+                android:letterSpacing="0.1"
+                android:fontFamily="monospace"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/groupConfig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/nothing_border"
-            android:hint="2.00"
-            android:textColor="@color/nothing_white"
-            android:textColorHint="@color/nothing_gray"
-            android:fontFamily="monospace"
-            android:inputType="numberDecimal"/>
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="@color/nothing_white"
-            android:text="VERIFICA E SALVA"
-            android:textColor="@color/nothing_black"
-            android:letterSpacing="0.15"
-            android:fontFamily="monospace"
-            android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ACCOUNT CONNESSO"
+                    android:textColor="@color/nothing_green"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.15"
+                    android:fontFamily="monospace"/>
+
+                <Button
+                    android:id="@+id/buttonLogout"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="0dp"
+                    android:text="LOGOUT"
+                    android:textColor="@color/nothing_red"
+                    android:textSize="11sp"
+                    android:fontFamily="monospace"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/nothing_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="1 · MANAGEMENT KEY"
+                android:textColor="@color/nothing_white"
+                android:textSize="12sp"
+                android:letterSpacing="0.15"
+                android:fontFamily="monospace"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Necessaria per workspace. Creala su openrouter.ai/settings/keys"
+                android:textColor="@color/nothing_gray"
+                android:textSize="10sp"
+                android:fontFamily="monospace"/>
+
+            <EditText
+                android:id="@+id/inputMgmtKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/nothing_border"
+                android:hint="sk-or-v1-..."
+                android:textColor="@color/nothing_white"
+                android:textColorHint="@color/nothing_gray"
+                android:fontFamily="monospace"
+                android:inputType="textPassword"
+                android:importantForAutofill="no"/>
+
+            <Button
+                android:id="@+id/buttonSaveMgmtKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/nothing_border"
+                android:text="VERIFICA E SALVA"
+                android:textColor="@color/nothing_white"
+                android:textSize="12sp"
+                android:fontFamily="monospace"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/nothing_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="2 · MODALITÀ DISPLAY"
+                android:textColor="@color/nothing_white"
+                android:textSize="12sp"
+                android:letterSpacing="0.15"
+                android:fontFamily="monospace"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radioAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Saldo Account"
+                    android:textColor="@color/nothing_white"
+                    android:fontFamily="monospace"
+                    android:buttonTint="@color/nothing_red"/>
+
+                <RadioButton
+                    android:id="@+id/radioWorkspace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Uso totale Workspace"
+                    android:textColor="@color/nothing_white"
+                    android:fontFamily="monospace"
+                    android:buttonTint="@color/nothing_red"/>
+
+                <RadioButton
+                    android:id="@+id/radioKey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Uso chiave singola"
+                    android:textColor="@color/nothing_white"
+                    android:fontFamily="monospace"
+                    android:buttonTint="@color/nothing_red"/>
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/groupWorkspaceSel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WORKSPACE"
+                    android:textColor="@color/nothing_gray"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.15"
+                    android:fontFamily="monospace"/>
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerWorkspace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="@color/nothing_border"
+                    android:hint="Seleziona workspace"
+                    android:textColor="@color/nothing_white"
+                    android:textColorHint="@color/nothing_gray"
+                    android:fontFamily="monospace"
+                    android:inputType="none"
+                    android:importantForAutofill="no"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/groupKeySel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CHIAVE API"
+                    android:textColor="@color/nothing_gray"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.15"
+                    android:fontFamily="monospace"/>
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerKey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="@color/nothing_border"
+                    android:hint="Seleziona chiave"
+                    android:textColor="@color/nothing_white"
+                    android:textColorHint="@color/nothing_gray"
+                    android:fontFamily="monospace"
+                    android:inputType="none"
+                    android:importantForAutofill="no"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/nothing_border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="3 · SOGLIA AVVISO ($)"
+                android:textColor="@color/nothing_white"
+                android:textSize="12sp"
+                android:letterSpacing="0.15"
+                android:fontFamily="monospace"/>
+
+            <EditText
+                android:id="@+id/inputThreshold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/nothing_border"
+                android:hint="2.00"
+                android:textColor="@color/nothing_white"
+                android:textColorHint="@color/nothing_gray"
+                android:fontFamily="monospace"
+                android:inputType="numberDecimal"/>
+
+            <Button
+                android:id="@+id/buttonSaveConfig"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/nothing_white"
+                android:text="SALVA E AGGIORNA WIDGET"
+                android:textColor="@color/nothing_black"
+                android:letterSpacing="0.1"
+                android:fontFamily="monospace"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="PRONTO"
             android:textColor="@color/nothing_gray"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:letterSpacing="0.1"
             android:fontFamily="monospace"/>
     </LinearLayout>

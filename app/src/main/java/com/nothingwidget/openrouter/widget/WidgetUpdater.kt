@@ -25,16 +25,15 @@ object WidgetUpdater {
         val prefs = Prefs(context)
         val views = RemoteViews(context.packageName, R.layout.widget_openrouter)
 
-        val balance   = prefs.cachedBalance
-        val usage     = prefs.cachedUsage
+        val balance = prefs.cachedBalance
+        val label = prefs.cachedLabel ?: "OPENROUTER"
         val threshold = prefs.threshold
-        val lastUpd   = prefs.lastUpdate
-        val error     = prefs.lastError
+        val lastUpd = prefs.lastUpdate
+        val error = prefs.lastError
 
         val hasBalance = balance >= 0f
-        val isLow      = hasBalance && balance < threshold
+        val isLow = hasBalance && balance < threshold
 
-        // Saldo principale
         views.setTextViewText(
             R.id.widget_balance,
             if (hasBalance) "$" + String.format(Locale.US, "%.2f", balance) else "—"
@@ -43,29 +42,21 @@ object WidgetUpdater {
             R.id.widget_balance,
             if (isLow) 0xFFD71921.toInt() else 0xFFFFFFFF.toInt()
         )
+        views.setTextViewText(R.id.widget_label, label)
 
-        // Uso totale
-        views.setTextViewText(
-            R.id.widget_usage,
-            if (usage >= 0f) "USO $" + String.format(Locale.US, "%.3f", usage) else "USO —"
-        )
-
-        // Timestamp / stato
         val status = when {
             error != null && hasBalance -> "OFFLINE · " + time(lastUpd)
-            error != null               -> "ERRORE: " + error.take(28)
-            lastUpd > 0                 -> "SYNC " + time(lastUpd)
-            else                        -> "MAI SINCRONIZZATO"
+            error != null -> "ERRORE: " + error.take(28)
+            lastUpd > 0 -> "SYNC " + time(lastUpd)
+            else -> "NON CONFIGURATO"
         }
         views.setTextViewText(R.id.widget_status, status)
 
-        // Dot di stato
         views.setImageViewResource(
             R.id.widget_dot,
             if (error != null || isLow) R.drawable.dot_red else R.drawable.dot_green
         )
 
-        // Click sul widget → apre la config
         val openPi = PendingIntent.getActivity(
             context, 0,
             Intent(context, MainActivity::class.java),
@@ -73,7 +64,6 @@ object WidgetUpdater {
         )
         views.setOnClickPendingIntent(R.id.widget_root, openPi)
 
-        // Click su refresh
         val refreshPi = PendingIntent.getBroadcast(
             context, 1,
             Intent(context, OpenRouterWidgetProvider::class.java).apply {
