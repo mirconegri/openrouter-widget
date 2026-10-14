@@ -1,23 +1,18 @@
-$gitignoreContent = @'
-*.iml
-.gradle/
-/local.properties
-/.idea/
-.DS_Store
-/build
-/app/build
-/captures
-.externalNativeBuild
-.cxx
-'@
-
-$gitignoreContent = $gitignoreContent -replace "`r`n", "`n"
+$gi = @(
+  '*.iml'
+  '.gradle/'
+  '/local.properties'
+  '/.idea/'
+  '.DS_Store'
+  '/build'
+  '/app/build'
+  '/captures'
+  '.externalNativeBuild'
+  '.cxx'
+) -join "`n"
 
 [System.IO.File]::WriteAllText(
   (Join-Path (Get-Location) ".gitignore"),
-  $gitignoreContent,
+  $gi,
   (New-Object System.Text.UTF8Encoding $false)
 )
-
-Write-Host ".gitignore creato" -ForegroundColor Green
-Get-Content ".gitignore"
