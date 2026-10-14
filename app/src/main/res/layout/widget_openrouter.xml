@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="NON CONFIGURATO"
+            android:text="NOT CONFIGURED"
             android:textColor="@color/nothing_gray"
             android:textSize="9sp"
             android:letterSpacing="0.12"

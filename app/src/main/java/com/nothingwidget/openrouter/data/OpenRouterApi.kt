@@ -26,8 +26,9 @@ object OpenRouterApi {
         .callTimeout(25, TimeUnit.SECONDS)
         .build()
 
+    /** GET /credits — returns the account-wide credit balance. */
     suspend fun fetchCredits(apiKey: String): CreditsResult = withContext(Dispatchers.IO) {
-        require(apiKey.isNotBlank()) { "API key mancante" }
+        require(apiKey.isNotBlank()) { "API key missing" }
         val body = get("$BASE/credits", apiKey)
         val data = JSONObject(body).getJSONObject("data")
         val total = data.getDouble("total_credits").toFloat()
@@ -35,8 +36,12 @@ object OpenRouterApi {
         CreditsResult(balance = total - usage, usage = usage, total = total)
     }
 
+    /**
+     * GET /key — returns metadata for the API key used to authenticate the request:
+     * its label, cumulative usage, spending limit and remaining budget.
+     */
     suspend fun fetchKeyInfo(apiKey: String): KeyInfo = withContext(Dispatchers.IO) {
-        require(apiKey.isNotBlank()) { "API key mancante" }
+        require(apiKey.isNotBlank()) { "API key missing" }
         val body = get("$BASE/key", apiKey)
         val data = JSONObject(body).getJSONObject("data")
         val label = data.optString("label").takeIf { it.isNotBlank() } ?: "API KEY"
@@ -59,9 +64,9 @@ object OpenRouterApi {
             val text = resp.body?.string().orEmpty()
             if (!resp.isSuccessful) {
                 val msg = when (resp.code) {
-                    401 -> "Chiave non valida"
-                    403 -> "Accesso negato"
-                    404 -> "Risorsa non trovata"
+                    401 -> "Invalid API key"
+                    403 -> "Access denied"
+                    404 -> "Resource not found"
                     else -> "HTTP ${resp.code}"
                 }
                 throw RuntimeException(msg)

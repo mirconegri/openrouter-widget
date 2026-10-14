@@ -31,7 +31,8 @@ class RefreshWorker(
             }
             Result.success()
         } catch (t: Throwable) {
-            prefs.lastError = t.message ?: "Errore di rete"
+            prefs.lastError = t.message ?: "Network error"
+            // Keep the last known value on screen — do not blank out the widget
             WidgetUpdater.updateAll(applicationContext)
             if (runAttemptCount < 3) Result.retry() else Result.success()
         }
@@ -39,7 +40,7 @@ class RefreshWorker(
 
     private suspend fun refreshAccount(prefs: Prefs) {
         if (prefs.userApiKey.isBlank()) {
-            prefs.lastError = "Non configurato"
+            prefs.lastError = "Not configured"
             WidgetUpdater.updateAll(applicationContext)
             return
         }
@@ -54,12 +55,12 @@ class RefreshWorker(
 
     private suspend fun refreshKey(prefs: Prefs) {
         if (prefs.userApiKey.isBlank()) {
-            prefs.lastError = "Non configurato"
+            prefs.lastError = "Not configured"
             WidgetUpdater.updateAll(applicationContext)
             return
         }
         val k = OpenRouterApi.fetchKeyInfo(prefs.userApiKey)
-        // In modalita KEY mostriamo l'usage cumulato della chiave
+        // In KEY mode, the widget shows the cumulative usage of the selected key
         prefs.cachedBalance = k.usage
         prefs.cachedUsage = k.usage
         prefs.cachedLabel = k.label.uppercase()

@@ -34,9 +34,9 @@ object WidgetUpdater {
 
         val hasBalance = balance >= 0f
 
-        // La soglia cambia significato in base alla modalita:
-        // - ACCOUNT: allarme se il credito residuo SCENDE sotto soglia
-        // - KEY: allarme se la spesa della chiave SALE sopra soglia
+        // The threshold has opposite meaning depending on the active mode:
+        // - ACCOUNT: alert when the remaining balance DROPS below the threshold
+        // - KEY:     alert when the cumulative usage RISES above the threshold
         val isAlert = when (mode) {
             Prefs.MODE_KEY -> hasBalance && balance > threshold
             else -> hasBalance && balance < threshold
@@ -54,9 +54,9 @@ object WidgetUpdater {
 
         val status = when {
             error != null && hasBalance -> "OFFLINE · " + time(lastUpd)
-            error != null -> "ERRORE: " + error.take(28)
+            error != null -> "ERROR: " + error.take(28)
             lastUpd > 0 -> "SYNC " + time(lastUpd)
-            else -> "NON CONFIGURATO"
+            else -> "NOT CONFIGURED"
         }
         views.setTextViewText(R.id.widget_status, status)
 

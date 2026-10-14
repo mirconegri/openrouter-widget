@@ -45,13 +45,14 @@ class MainActivity : AppCompatActivity() {
                 Prefs.MODE_KEY -> b.radioKey.isChecked = true
                 else -> b.radioAccount.isChecked = true
             }
+            updateThresholdHint()
         }
     }
 
     private fun validateAndSaveUserKey() {
         val key = b.inputUserKey.text?.toString()?.trim().orEmpty()
-        if (key.isBlank()) { toast("Inserisci la User API Key"); return }
-        b.status.text = "VERIFICA USER KEY..."
+        if (key.isBlank()) { toast("Enter your API key"); return }
+        b.status.text = "VERIFYING API KEY..."
         lifecycleScope.launch {
             try {
                 val r = OpenRouterApi.fetchCredits(key)
@@ -61,12 +62,12 @@ class MainActivity : AppCompatActivity() {
                 prefs.cachedLabel = "ACCOUNT"
                 prefs.lastUpdate = System.currentTimeMillis()
                 prefs.lastError = null
-                b.status.text = "OK · SALDO $" + String.format(Locale.US, "%.2f", r.balance)
+                b.status.text = "OK · BALANCE $" + String.format(Locale.US, "%.2f", r.balance)
                 WidgetUpdater.updateAll(this@MainActivity)
                 RefreshWorker.schedule(this@MainActivity)
                 render()
             } catch (t: Throwable) {
-                b.status.text = "ERRORE: ${t.message}"
+                b.status.text = "ERROR: ${t.message}"
             }
         }
     }
@@ -75,21 +76,34 @@ class MainActivity : AppCompatActivity() {
         prefs.logout()
         b.inputUserKey.setText("")
         render()
-        b.status.text = "DISCONNESSO"
+        b.status.text = "LOGGED OUT"
         WidgetUpdater.updateAll(this)
     }
 
     private fun setMode(mode: String) {
         prefs.displayMode = mode
+        updateThresholdHint()
+    }
+
+    /**
+     * The threshold has opposite meaning depending on the active display mode:
+     * - ACCOUNT: alert when the remaining balance DROPS below the threshold
+     * - KEY:     alert when the cumulative usage RISES above the threshold
+     */
+    private fun updateThresholdHint() {
+        b.hintThreshold.text = when (prefs.displayMode) {
+            Prefs.MODE_KEY -> "Widget turns red when key usage rises above this value"
+            else -> "Widget turns red when balance drops below this value"
+        }
     }
 
     private fun saveConfigAndRefresh() {
         val t = b.inputThreshold.text?.toString()?.toFloatOrNull() ?: 2.0f
         prefs.threshold = t
-        b.status.text = "SALVATO · SINCRONIZZO..."
+        b.status.text = "SAVED · SYNCING..."
         WidgetUpdater.updateAll(this)
         RefreshWorker.runNow(this)
-        toast("Salvato")
+        toast("Saved")
     }
 
     private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
