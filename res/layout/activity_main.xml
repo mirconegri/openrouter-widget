@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nothing_black"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OPENROUTER"
+            android:textColor="@color/nothing_white"
+            android:textSize="22sp"
+            android:letterSpacing="0.18"
+            android:fontFamily="monospace"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="CONFIGURAZIONE WIDGET"
+            android:textColor="@color/nothing_gray"
+            android:textSize="11sp"
+            android:letterSpacing="0.2"
+            android:fontFamily="monospace"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/nothing_border"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="API KEY"
+            android:textColor="@color/nothing_gray"
+            android:textSize="11sp"
+            android:letterSpacing="0.2"
+            android:fontFamily="monospace"/>
+
+        <EditText
+            android:id="@+id/inputApiKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/nothing_border"
+            android:hint="sk-or-..."
+            android:textColor="@color/nothing_white"
+            android:textColorHint="@color/nothing_gray"
+            android:fontFamily="monospace"
+            android:inputType="textPassword"
+            android:autofillHints=""
+            android:importantForAutofill="no"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="SOGLIA AVVISO ($)"
+            android:textColor="@color/nothing_gray"
+            android:textSize="11sp"
+            android:letterSpacing="0.2"
+            android:fontFamily="monospace"/>
+
+        <EditText
+            android:id="@+id/inputThreshold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/nothing_border"
+            android:hint="2.00"
+            android:textColor="@color/nothing_white"
+            android:textColorHint="@color/nothing_gray"
+            android:fontFamily="monospace"
+            android:inputType="numberDecimal"/>
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/nothing_white"
+            android:text="VERIFICA E SALVA"
+            android:textColor="@color/nothing_black"
+            android:letterSpacing="0.15"
+            android:fontFamily="monospace"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="PRONTO"
+            android:textColor="@color/nothing_gray"
+            android:textSize="12sp"
+            android:letterSpacing="0.1"
+            android:fontFamily="monospace"/>
+    </LinearLayout>
+</ScrollView>

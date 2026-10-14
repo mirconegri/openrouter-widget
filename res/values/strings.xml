@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenRouter Balance</string>
+    <string name="widget_label">OpenRouter</string>
+    <string name="widget_desc">Mostra il saldo residuo OpenRouter in stile Nothing OS.</string>
+    <string name="refresh">Aggiorna</string>
+</resources>
