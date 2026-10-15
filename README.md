@@ -4,6 +4,8 @@
 [![Android](https://img.shields.io/badge/Android-8.0+-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)
 [![Nothing OS](https://img.shields.io/badge/Nothing_OS-Style-000000?style=for-the-badge)](https://nothing.tech/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Orion Store](https://img.shields.io/badge/Get_it_on-Orion_Store-8A2BE2?style=for-the-badge)](https://rookieenough.github.io/Orion-Data/redirect.html?id=openrouter-widget)
+
 
 > 📱 Native Android home-screen widget that shows your live OpenRouter credit balance — nothing more, nothing less.
 
